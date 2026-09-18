@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -51,9 +51,16 @@ jobs:
           PHP
 
       - name: Run the installer
-        run: ./install.sh demo-plugin demo-plugin demo-plugin
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            powershell -NoProfile -ExecutionPolicy Bypass -File ./install.ps1 -Target demo-plugin -Slug demo-plugin -TextDomain demo-plugin
+          else
+            ./install.sh demo-plugin demo-plugin demo-plugin
+          fi
 
       - name: Init git and install tooling
+        shell: bash
         working-directory: demo-plugin
         run: |
           git init -b main
@@ -63,6 +70,7 @@ jobs:
           npm install --no-fund --no-audit
 
       - name: Gate must block the non-compliant commit
+        shell: bash
         working-directory: demo-plugin
         run: |
           git add -A
@@ -137,6 +145,7 @@ jobs:
           PHP
 
       - name: Run the verification chain (must be green)
+        shell: bash
         working-directory: demo-plugin
         run: |
           npm run build
@@ -145,6 +154,7 @@ jobs:
           vendor/bin/phpstan analyse --no-progress --memory-limit=1G
 
       - name: Gate must allow the compliant commit
+        shell: bash
         working-directory: demo-plugin
         run: |
           git add -A

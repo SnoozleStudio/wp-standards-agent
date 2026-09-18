@@ -3,6 +3,15 @@
 **Enforce WordPress Coding Standards on every line your AI agent writes.**
 
 [![CI](https://github.com/SnoozleStudio/wp-standards-agent/actions/workflows/verify.yml/badge.svg)](https://github.com/SnoozleStudio/wp-standards-agent/actions/workflows/verify.yml)
+[![License: MIT](https://img.shields.io/github/license/SnoozleStudio/wp-standards-agent)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/SnoozleStudio/wp-standards-agent)](https://github.com/SnoozleStudio/wp-standards-agent/releases)
+![PHP 8.2+](https://img.shields.io/badge/PHP-8.2%2B-8892BF)
+![WordPress 6.8+](https://img.shields.io/badge/WordPress-6.8%2B-21759B)
+![PHPStan level 8](https://img.shields.io/badge/PHPStan-level%208-0B6E4F)
+![WPCS 3.0](https://img.shields.io/badge/WPCS-3.0-3858E9)
+![Windows verified](https://img.shields.io/badge/Windows-verified-brightgreen)
+![macOS verified](https://img.shields.io/badge/macOS-verified-brightgreen)
+![Linux verified](https://img.shields.io/badge/Linux-verified-brightgreen)
 
 A drop-in kit that turns any coding agent (opencode, Claude Code, Codex, Cursor —
 or any tool that reads `AGENTS.md`) into a WordPress standards enforcer: the
@@ -52,10 +61,18 @@ npx skills add snoozlestudio/wp-standards-agent -a opencode
 ./install.sh path/to/your-plugin
 ```
 
-The installer is verified on Linux and macOS by the CI matrix — the full chain
-(installer → gate → format → phpcs → phpstan) runs on every push, and
-`install.sh` is exec-bit enabled so it runs directly after clone. `install.sh`
-is bash 3.2-compatible (macOS default bash).
+### Verified on all three platforms
+
+The CI matrix runs the full proof — installer → gate blocks a non-compliant
+commit → compliant code passes the whole chain — on every push:
+
+| OS | Installer | Proof |
+| --- | --- | --- |
+| Windows | `install.ps1` | CI `windows-latest` + local end-to-end |
+| macOS | `install.sh` | CI `macos-latest` (default bash 3.2) |
+| Linux | `install.sh` | CI `ubuntu-latest` + WSL local run |
+
+`install.sh` ships with the exec bit set, so it runs directly after clone.
 
 The installer copies `phpcs.xml`, `pint.json`, `phpstan.neon`, `.prettierrc`,
 `.prettierignore`, and the `.husky/pre-commit` gate (backing up any existing
