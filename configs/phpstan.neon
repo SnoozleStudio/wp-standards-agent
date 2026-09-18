@@ -1,0 +1,19 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 8
+    paths:
+        - .
+    excludePaths:
+        - node_modules/*
+        - vendor/*
+        - dist/*
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - identifier: constant.notFound
+          # Only needed when plugin constants are defined via define() with
+          # function-call values (plugin_dir_url(), plugin_dir_path()).
+          # PHPStan only auto-discovers statically-evaluable define() values;
+          # WP resolves them at runtime. Delete this block if you don't use
+          # that pattern.

@@ -1,0 +1,61 @@
+<!-- wp-standards-agent:start -->
+
+# WordPress Coding Standards (enforced by wp-standards-agent)
+
+Non-negotiable. Violations are review failures, security holes, or both. Run the
+verification chain after every unit of work and before every commit; stop at the
+first red. The `.husky/pre-commit` hook enforces it on commit.
+
+## Standards
+
+- **Prefix everything** — functions, classes, namespaces, options, transients,
+  hook names. Project prefix >= 4 chars; never `wp_`, `__`, `_`. Classes are
+  `Class_Name` (one per file, `class-{name}.php`); files lowercase with hyphens;
+  constants `ALL_CAPS_WITH_UNDERSCORES`.
+- **Syntax**: tabs for indentation; `array( ... )` never `[...]`; Yoda
+  conditions for `==`/`!=`/`===`/`!==`; braces always, `elseif` never
+  `else if`; single quotes unless interpolating; no `extract()`/`eval()`/
+  `create_function()`/`@`; no closures as action/filter callbacks.
+- **Escape at output, never at store**: `esc_html()` text, `esc_attr()`
+  attributes, `esc_url()` URLs (never `esc_attr( $url )`), `esc_textarea()`,
+  `wp_kses_post()` trusted HTML. Escape whole strings, never fragments.
+- **Sanitize input**: `wp_unslash()` FIRST, then sanitize
+  (`sanitize_text_field()`, `absint()`, `sanitize_email()`, `sanitize_key()`,
+  ...). Validate before sanitize with safelists and strict checks.
+- **SQL**: prefer WP APIs (`get_post_meta`, `WP_Query`); otherwise `$wpdb` +
+  `$wpdb->prepare()` with unquoted `%s`/`%d`/`%f`/`%i` placeholders. Never
+  concatenate values into SQL.
+- **Nonces are CSRF-only**: every state-changing form gets a nonce
+  (`wp_nonce_field()`/`check_admin_referer()`), always paired with
+  `current_user_can( 'capability' )`. `is_admin()` is NOT an auth check.
+- **i18n always**: user-facing strings through `__()`, `esc_html_e()`,
+  `esc_attr_e()` with the text domain as the LAST argument; translators
+  comments for numbered placeholders.
+- **Correct hook timing**: `after_setup_theme` (theme setup), `init` (CPTs,
+  rewrites), `wp_enqueue_scripts`, `rest_api_init` (REST), `plugins_loaded`.
+- **Lifecycle**: activation sets defaults + flushes rewrites; deactivation
+  clears temp data + flushes rewrites; deactivation is NOT uninstall —
+  permanent data removal only in `uninstall.php` guarded by
+  `WP_UNINSTALL_PLUGIN`. ABSPATH guard on every file with top-level code.
+- **REST**: `permission_callback` on every non-public route,
+  `validate_callback` + `sanitize_callback` per arg, `WP_Error` with
+  machine-readable codes and status.
+- **Never fake measurements**: a lint/test/build result that was not actually
+  run is a lie. The exit code is the only evidence.
+
+## Verification chain
+
+Run in order, stop at the first red, never stack untested fixes:
+
+```text
+npm run build
+npm run format:all:check
+vendor/bin/phpcs --standard=phpcs.xml -d memory_limit=1024M
+vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+```
+
+- `pint.json` is tuned so Pint never fights phpcs — phpcs is the style
+  authority.
+- `--no-verify` is a documented escape hatch, not the norm.
+
+<!-- wp-standards-agent:end -->

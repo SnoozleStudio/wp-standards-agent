@@ -1,0 +1,20 @@
+# AGENTS.md
+
+This repo dogfoods the kit it ships. The rules in `skills/wp-standards-agent/SKILL.md`
+apply to any PHP in this repo, and the verification chain in
+`references/verification-chain.md` applies to any changes you make here.
+
+## Maintenance rules
+
+- `configs/` is the canonical source for the tooling — keep the four configs
+  (phpcs.xml, pint.json, phpstan.neon, composer.json) mutually consistent.
+- `configs/AGENTS.md.snippet` and `skills/wp-standards-agent/SKILL.md` must not
+  drift: same rules, different audiences (tools vs agents). Update both in the
+  same change.
+- `install.ps1` and `install.sh` must behave identically: same files, same
+  prompts, same next-steps output. A change to one requires the other.
+- Tokens `{{SLUG}}` / `{{TEXT_DOMAIN}}` are substituted by the installers —
+  never ship a config with a hard-coded slug.
+- The verification claim of the kit is only as strong as its own proof: any
+  change to configs or installers must be re-run against a scratch project
+  before commit (see README "Prove it").
