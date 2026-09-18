@@ -12,6 +12,11 @@ apply to any PHP in this repo, and the verification chain in
 - `skills/wp-standards-agent/configs/AGENTS.md.snippet` and
   `skills/wp-standards-agent/SKILL.md` must not drift: same rules, different
   audiences (tools vs agents). Update both in the same change.
+- English files are canonical; `docs/it/` is the human-facing Italian
+  adaptation of the same rules and commands. A rule change in English must
+  be mirrored in `docs/it/` in the same change; `docs/it/` never invents
+  rules the English sources don't have. Skill files and `AGENTS.md.snippet`
+  stay English on purpose (agent-facing) — documented in `docs/it/README.md`.
 - The skill folder is self-contained on purpose — the skills CLI installs only
   `skills/wp-standards-agent/`, so references and configs must stay inside it.
 - `install.ps1` and `install.sh` must behave identically: same files, same

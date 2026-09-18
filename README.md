@@ -13,6 +13,8 @@
 ![macOS verified](https://img.shields.io/badge/macOS-verified-brightgreen)
 ![Linux verified](https://img.shields.io/badge/Linux-verified-brightgreen)
 
+🇮🇹 **Guida in italiano** — documentazione dettagliata: [docs/it/](docs/it/)
+
 A drop-in kit that turns any coding agent (opencode, Claude Code, Codex, Cursor —
 or any tool that reads `AGENTS.md`) into a WordPress standards enforcer: the
 non-negotiable rules, the escaping matrix, the 4-step verification chain, and a
