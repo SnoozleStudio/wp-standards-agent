@@ -40,6 +40,12 @@ PHPStan livello 8 e un gate git che rifiuta codice non conforme al commit.
 4. **Il gate husky** blocca il commit finché la catena di verifica non è verde
    — per agenti e umani allo stesso modo.
 
+## Esempio reale
+
+Il repository include un esempio completo prima/dopo: **Hello, Over the
+Rainbow** — un tributo a Hello Dolly con "Over the Rainbow" di Israel
+Kamakawiwoʻole, scritto due volte ([`examples/hello-over-the-rainbow/`](../../examples/hello-over-the-rainbow/README.md)): la versione `before/` è codice legacy senza standard (la catena trova 24 errori + 1 warning), la versione `after/` è lo stesso plugin conforme e verde. La CI verifica `after/` a ogni push.
+
 ## Verificato su
 
 Windows, macOS e Linux: la matrice CI di GitHub Actions esegue l'intero

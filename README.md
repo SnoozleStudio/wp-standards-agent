@@ -72,7 +72,7 @@ commit → compliant code passes the whole chain — on every push:
 | --- | --- | --- |
 | Windows | `install.ps1` | CI `windows-latest` + local end-to-end |
 | macOS | `install.sh` | CI `macos-latest` (default bash 3.2) |
-| Linux | `install.sh` | CI `ubuntu-24.04` (pinned) + WSL local run |
+| Linux | `install.sh` | CI `ubuntu-latest` + WSL local run |
 
 `install.sh` ships with the exec bit set, so it runs directly after clone.
 
@@ -105,6 +105,15 @@ an unpadded SQL query, a `wp_`-prefixed function, a closure as an action
 callback — then ask your agent to fix it and watch the chain and the gate
 refuse anything less than clean. That's the demo.
 
+## Examples
+
+- **Hello, Over the Rainbow** — [examples/hello-over-the-rainbow/](examples/hello-over-the-rainbow/)
+  the classic Hello Dolly plugin rewritten as a tribute to Israel
+  Kamakawiwoʻole's *Over the Rainbow*, in two versions: `before/` (legacy,
+  non-compliant — the chain finds 24 errors + 1 warning) and `after/` (the
+  same plugin, fully compliant, chain-green). The CI matrix verifies
+  `after/` on every push.
+
 ## Repository layout
 
 ```
@@ -112,6 +121,8 @@ refuse anything less than clean. That's the demo.
 │   ├── SKILL.md                          # the discipline (opencode / Claude Code)
 │   ├── references/                       # standards + verification-chain reference
 │   └── configs/                          # drop-in tooling + AGENTS.md.snippet
+├── examples/hello-over-the-rainbow/      # real before/after example (CI-verified)
+├── docs/it/                              # guida dettagliata in italiano
 ├── install.ps1 / install.sh              # installers (identical behavior)
 ├── AGENTS.md                             # maintenance rules for this repo
 └── LICENSE                               # MIT

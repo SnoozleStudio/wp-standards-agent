@@ -26,9 +26,13 @@ apply to any PHP in this repo, and the verification chain in
 - The verification claim of the kit is only as strong as its own proof: any
   change to configs or installers must be re-run against a scratch project
   before commit (see README "Prove it").
+- `examples/` content must stay chain-green: the CI `example` job installs
+  the kit into `examples/hello-over-the-rainbow/after/` and requires the
+  full chain to pass. `before/` stays deliberately non-compliant — its
+  findings are documented in the example README and must not drift from
+  what the chain actually reports.
 - `.github/workflows/verify.yml` re-runs installer → gate → chain on
-  ubuntu-24.04 (pinned — the `ubuntu-latest` label migrates to Ubuntu 26 in
-  Oct 2026), macos-latest and windows-latest for every push. A
+  ubuntu-latest, macos-latest and windows-latest for every push. A
   config/installer change that is not CI-green is not done — the matrix is the
   cross-platform proof. The Windows leg must run `install.ps1`, the POSIX legs
   `install.sh`; keep the steps OS-agnostic (shell: bash everywhere).
