@@ -49,4 +49,4 @@ per i dettagli.
 ## Collegamenti
 
 - Repository: <https://github.com/SnoozleStudio/wp-standards-agent>
-- README (inglese): <../README.md>
+- README (inglese): <https://github.com/SnoozleStudio/wp-standards-agent/blob/main/README.md>
