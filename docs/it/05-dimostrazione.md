@@ -211,3 +211,7 @@ git commit -m "chore: make demo plugin compliant"
 Il messaggio del talk: l'agente non è affidabile perché "sa" le regole —
 è affidabile perché **non può chiudere un commit** che le viola.
 Il gate è il suo partner di responsabilità.
+
+> **Approfondimento**: lo stesso percorso su un plugin reale e completo —
+> il tributo a Hello Dolly con "Over the Rainbow" di Israel
+> Kamakawiwoʻole — è in [07-esempio-hello-over-the-rainbow.md](07-esempio-hello-over-the-rainbow.md).

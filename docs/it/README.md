@@ -21,6 +21,7 @@ a ogni riga di codice scritta da un agente AI.
 | 4 | [04-agenti-e-regole.md](04-agenti-e-regole.md) | Come l'agente applica le regole: skill, AGENTS.md, escaping, nonce, i18n |
 | 5 | [05-dimostrazione.md](05-dimostrazione.md) | Demo passo-passo: plugin non conforme → gate che blocca → catena verde |
 | 6 | [06-domande-frequenti.md](06-domande-frequenti.md) | FAQ e risoluzione dei problemi |
+| 7 | [07-esempio-hello-over-the-rainbow.md](07-esempio-hello-over-the-rainbow.md) | Esempio reale prima/dopo: Hello, Over the Rainbow |
 
 ## Perché esiste
 
@@ -44,7 +45,13 @@ PHPStan livello 8 e un gate git che rifiuta codice non conforme al commit.
 
 Il repository include un esempio completo prima/dopo: **Hello, Over the
 Rainbow** — un tributo a Hello Dolly con "Over the Rainbow" di Israel
-Kamakawiwoʻole, scritto due volte ([`examples/hello-over-the-rainbow/`](../../examples/hello-over-the-rainbow/README.md)): la versione `before/` è codice legacy senza standard (la catena trova 24 errori + 1 warning), la versione `after/` è lo stesso plugin conforme e verde. La CI verifica `after/` a ogni push.
+Kamakawiwoʻole, scritto due volte. La guida dedicata è
+[07-esempio-hello-over-the-rainbow.md](07-esempio-hello-over-the-rainbow.md);
+il materiale sorgente è in
+[`examples/hello-over-the-rainbow/`](../../examples/hello-over-the-rainbow/README.md):
+la versione `before/` è codice legacy senza standard (la catena trova
+24 errori + 1 warning), la versione `after/` è lo stesso plugin conforme
+e verde. La CI verifica `after/` a ogni push.
 
 ## Verificato su
 
