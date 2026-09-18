@@ -25,7 +25,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
-$configs = Join-Path $repoRoot "configs"
+$configs = Join-Path $repoRoot "skills\wp-standards-agent\configs"
 
 $target = [IO.Path]::GetFullPath($Target)
 if ( -not ( Test-Path -LiteralPath $target ) ) {
@@ -83,6 +83,12 @@ if ( -not ( Test-Path -LiteralPath ( Join-Path $target ".gitignore" ) ) ) {
     Install-File ".gitignore"
 } else {
     Write-Host "  kept existing .gitignore"
+}
+
+if ( -not ( Test-Path -LiteralPath ( Join-Path $target ".gitattributes" ) ) ) {
+    Install-File ".gitattributes"
+} else {
+    Write-Host "  kept existing .gitattributes (ensure '*.php text eol=lf' is present)"
 }
 
 $madeComposer = $false

@@ -16,13 +16,13 @@ through — WPCS 3.0, Pint, PHPStan level 8, husky. Presented at WordCamp Pisa
 | Piece | What it does |
 |---|---|
 | `skills/wp-standards-agent/SKILL.md` | The discipline — auto-loads in opencode / Claude Code whenever WordPress code is written or reviewed |
-| `configs/AGENTS.md.snippet` | The same rules as a portable block for **any** agent tool (Codex, Cursor, ...) |
-| `configs/phpcs.xml` | WordPress-Extra + Docs + PHPCompatibility (testVersion 8.2-) |
-| `configs/pint.json` | Pint tuned so it never fights phpcs — phpcs is the style authority |
-| `configs/phpstan.neon` | PHPStan level 8 with `szepeviktor/phpstan-wordpress` |
-| `configs/package.json` + `.husky/pre-commit` | The gate: `git commit` blocks on format/phpcs/phpstan failures |
+| `skills/wp-standards-agent/configs/AGENTS.md.snippet` | The same rules as a portable block for **any** agent tool (Codex, Cursor, ...) |
+| `skills/wp-standards-agent/configs/phpcs.xml` | WordPress-Extra + Docs + PHPCompatibility (testVersion 8.2-) |
+| `skills/wp-standards-agent/configs/pint.json` | Pint tuned so it never fights phpcs — phpcs is the style authority |
+| `skills/wp-standards-agent/configs/phpstan.neon` | PHPStan level 8 with `szepeviktor/phpstan-wordpress` |
+| `skills/wp-standards-agent/configs/package.json` + `.husky/pre-commit` | The gate: `git commit` blocks on format/phpcs/phpstan failures |
 | `install.ps1` / `install.sh` | One command: drop everything into an existing plugin or theme |
-| `references/` | The full standards + verification-chain reference the skill loads |
+| `skills/wp-standards-agent/references/` | The full standards + verification-chain reference the skill loads |
 
 ## Install
 
@@ -36,8 +36,9 @@ npx skills add snoozlestudio/wp-standards-agent -a opencode
 
 **Claude Code:** copy `skills/wp-standards-agent/` into `~/.claude/skills/`.
 
-**Codex / Cursor / any tool:** the installer appends `configs/AGENTS.md.snippet`
-to your project's `AGENTS.md` — your agent reads it as normal instructions.
+**Codex / Cursor / any tool:** the installer appends
+`skills/wp-standards-agent/configs/AGENTS.md.snippet` to your project's
+`AGENTS.md` — your agent reads it as normal instructions.
 
 ### 2. The tooling + gate (machine enforcement)
 
@@ -51,8 +52,8 @@ to your project's `AGENTS.md` — your agent reads it as normal instructions.
 
 The installer copies `phpcs.xml`, `pint.json`, `phpstan.neon`, `.prettierrc`,
 `.prettierignore`, and the `.husky/pre-commit` gate (backing up any existing
-configs as `.bak`), creates `composer.json` / `package.json` / `.gitignore`
-when absent, and gates your `AGENTS.md`. Then:
+configs as `.bak`), creates `composer.json` / `package.json` / `.gitignore` /
+`.gitattributes` when absent, and gates your `AGENTS.md`. Then:
 
 ```bash
 composer install
@@ -81,12 +82,13 @@ refuse anything less than clean. That's the demo.
 ## Repository layout
 
 ```
-├── skills/wp-standards-agent/SKILL.md   # the skill (opencode / Claude Code)
-├── references/                          # standards + verification-chain reference
-├── configs/                             # drop-in tooling + AGENTS.md.snippet
-├── install.ps1 / install.sh             # installers (identical behavior)
-├── AGENTS.md                            # maintenance rules for this repo
-└── LICENSE                              # MIT
+├── skills/wp-standards-agent/            # the skill, self-contained
+│   ├── SKILL.md                          # the discipline (opencode / Claude Code)
+│   ├── references/                       # standards + verification-chain reference
+│   └── configs/                          # drop-in tooling + AGENTS.md.snippet
+├── install.ps1 / install.sh              # installers (identical behavior)
+├── AGENTS.md                             # maintenance rules for this repo
+└── LICENSE                               # MIT
 ```
 
 ## Requirements

@@ -1,0 +1,2 @@
+# Normalize line endings to LF so Pint/Prettier never fight git.
+* text=auto eol=lf

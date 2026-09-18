@@ -11,7 +11,7 @@ TARGET="$(cd "$TARGET" && pwd)"
 SLUG="${2:-${WSA_SLUG:-}}"
 TEXT_DOMAIN="${3:-${WSA_TEXT_DOMAIN:-}}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIGS="$REPO_ROOT/configs"
+CONFIGS="$REPO_ROOT/skills/wp-standards-agent/configs"
 
 if [ ! -d "$TARGET" ]; then
     echo "Target directory does not exist: $TARGET" >&2
@@ -59,6 +59,12 @@ if [ ! -f "$TARGET/.gitignore" ]; then
     install_file ".gitignore"
 else
     echo "  kept existing .gitignore"
+fi
+
+if [ ! -f "$TARGET/.gitattributes" ]; then
+    install_file ".gitattributes"
+else
+    echo "  kept existing .gitattributes (ensure '*.php text eol=lf' is present)"
 fi
 
 MADE_COMPOSER=0
