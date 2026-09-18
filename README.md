@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/github/license/SnoozleStudio/wp-standards-agent)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/SnoozleStudio/wp-standards-agent)](https://github.com/SnoozleStudio/wp-standards-agent/releases)
 ![PHP 8.2+](https://img.shields.io/badge/PHP-8.2%2B-8892BF)
-![WordPress 6.8+](https://img.shields.io/badge/WordPress-6.8%2B-21759B)
+![WordPress 7.0+](https://img.shields.io/badge/WordPress-7.0%2B-21759B)
 ![PHPStan level 8](https://img.shields.io/badge/PHPStan-level%208-0B6E4F)
 ![WPCS 3.0](https://img.shields.io/badge/WPCS-3.0-3858E9)
 ![Windows verified](https://img.shields.io/badge/Windows-verified-brightgreen)
@@ -87,7 +87,7 @@ npm install     # wires the pre-commit gate via husky
 ### 3. Run the chain
 
 ```text
-npm run build                       # Vite production build
+npm run build                       # production build — Vite if you have assets; no-op exit 0 otherwise
 npm run format:all:check            # Prettier + Pint dry-run
 vendor/bin/phpcs --standard=phpcs.xml -d memory_limit=1024M
 vendor/bin/phpstan analyse --no-progress --memory-limit=1G
@@ -118,8 +118,8 @@ refuse anything less than clean. That's the demo.
 ## Requirements
 
 - PHP 8.2+ (Composer on PATH)
-- Node 18+ (npm)
-- WordPress 6.8+ target projects
+- Node 20+ (npm)
+- WordPress 7.0+ target projects
 
 ## License
 

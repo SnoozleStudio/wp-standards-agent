@@ -8,7 +8,7 @@ Every skill, installer, and doc that references the chain points here.
 Run in order for theme/plugin projects; stop at the first red:
 
 ```text
-npm run build                       # Vite production build (assets compile)
+npm run build                       # production build — Vite if you have assets; no-op exit 0 otherwise
 npm run format:all:check            # Prettier (JS/CSS/JSON) + Pint (PHP) dry-run
 vendor/bin/phpcs --standard=phpcs.xml -d memory_limit=1024M
 vendor/bin/phpstan analyse --no-progress --memory-limit=1G

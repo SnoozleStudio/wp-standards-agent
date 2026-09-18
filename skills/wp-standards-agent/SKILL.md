@@ -60,7 +60,7 @@ After every unit of work and before every commit, run in order, stopping at the
 first red — never stack untested fixes:
 
 ```text
-npm run build                       # Vite production build
+npm run build                       # production build — Vite if you have assets; no-op exit 0 otherwise
 npm run format:all:check            # Prettier (JS/CSS/JSON) + Pint (PHP) dry-run
 vendor/bin/phpcs --standard=phpcs.xml -d memory_limit=1024M
 vendor/bin/phpstan analyse --no-progress --memory-limit=1G
