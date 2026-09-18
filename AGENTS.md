@@ -27,7 +27,8 @@ apply to any PHP in this repo, and the verification chain in
   change to configs or installers must be re-run against a scratch project
   before commit (see README "Prove it").
 - `.github/workflows/verify.yml` re-runs installer → gate → chain on
-  ubuntu-latest, macos-latest and windows-latest for every push. A
+  ubuntu-24.04 (pinned — the `ubuntu-latest` label migrates to Ubuntu 26 in
+  Oct 2026), macos-latest and windows-latest for every push. A
   config/installer change that is not CI-green is not done — the matrix is the
   cross-platform proof. The Windows leg must run `install.ps1`, the POSIX legs
   `install.sh`; keep the steps OS-agnostic (shell: bash everywhere).

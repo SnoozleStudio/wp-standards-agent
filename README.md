@@ -72,7 +72,7 @@ commit → compliant code passes the whole chain — on every push:
 | --- | --- | --- |
 | Windows | `install.ps1` | CI `windows-latest` + local end-to-end |
 | macOS | `install.sh` | CI `macos-latest` (default bash 3.2) |
-| Linux | `install.sh` | CI `ubuntu-latest` + WSL local run |
+| Linux | `install.sh` | CI `ubuntu-24.04` (pinned) + WSL local run |
 
 `install.sh` ships with the exec bit set, so it runs directly after clone.
 
