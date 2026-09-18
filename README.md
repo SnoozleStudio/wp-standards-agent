@@ -2,6 +2,8 @@
 
 **Enforce WordPress Coding Standards on every line your AI agent writes.**
 
+[![CI](https://github.com/SnoozleStudio/wp-standards-agent/actions/workflows/verify.yml/badge.svg)](https://github.com/SnoozleStudio/wp-standards-agent/actions/workflows/verify.yml)
+
 A drop-in kit that turns any coding agent (opencode, Claude Code, Codex, Cursor —
 or any tool that reads `AGENTS.md`) into a WordPress standards enforcer: the
 non-negotiable rules, the escaping matrix, the 4-step verification chain, and a
@@ -49,6 +51,11 @@ npx skills add snoozlestudio/wp-standards-agent -a opencode
 # macOS / Linux
 ./install.sh path/to/your-plugin
 ```
+
+The installer is verified on Linux and macOS by the CI matrix — the full chain
+(installer → gate → format → phpcs → phpstan) runs on every push, and
+`install.sh` is exec-bit enabled so it runs directly after clone. `install.sh`
+is bash 3.2-compatible (macOS default bash).
 
 The installer copies `phpcs.xml`, `pint.json`, `phpstan.neon`, `.prettierrc`,
 `.prettierignore`, and the `.husky/pre-commit` gate (backing up any existing

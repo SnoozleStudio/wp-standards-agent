@@ -21,3 +21,6 @@ apply to any PHP in this repo, and the verification chain in
 - The verification claim of the kit is only as strong as its own proof: any
   change to configs or installers must be re-run against a scratch project
   before commit (see README "Prove it").
+- `.github/workflows/verify.yml` re-runs installer → gate → chain on
+  ubuntu-latest + macos-latest for every push. A config/installer change that
+  is not CI-green is not done — the matrix is the cross-platform proof.

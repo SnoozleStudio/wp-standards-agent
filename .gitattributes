@@ -1,0 +1,4 @@
+# Line endings: LF everywhere so shell scripts survive Windows contributors.
+* text=auto eol=lf
+*.sh text eol=lf
+*.ps1 text eol=lf

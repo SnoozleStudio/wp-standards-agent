@@ -1,0 +1,152 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  installer:
+    name: installer + chain (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring
+          tools: composer
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Bootstrap deliberately non-compliant scratch plugin
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p demo-plugin
+          cat > demo-plugin/demo-plugin.php <<'PHP'
+          <?php
+          /**
+           * Plugin Name: Demo Plugin
+           * Description: Deliberately non-compliant plugin for the wp-standards-agent demo.
+           * Version: 1.0.0
+           */
+          function wp_demo_bad() {
+              $items = get_option( 'demo_items', [] );
+              $item  = isset( $_GET['item'] ) ? $_GET['item'] : '';
+              echo '<div>' . $item . '</div>';
+              global $wpdb;
+              $rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}posts WHERE post_status = 'publish'" );
+              return $rows;
+          }
+          add_action( 'init', function () {
+              update_option( 'demo_ran', true );
+          } );
+          PHP
+
+      - name: Run the installer
+        run: ./install.sh demo-plugin demo-plugin demo-plugin
+
+      - name: Init git and install tooling
+        working-directory: demo-plugin
+        run: |
+          git init -b main
+          git config user.name CI
+          git config user.email ci@example.com
+          composer install --no-interaction
+          npm install --no-fund --no-audit
+
+      - name: Gate must block the non-compliant commit
+        working-directory: demo-plugin
+        run: |
+          git add -A
+          if git commit -m "chore: wip" 2>/dev/null; then
+            echo "FAIL: the pre-commit gate allowed non-compliant code" >&2
+            exit 1
+          fi
+          echo "gate blocked the non-compliant commit (expected)"
+
+      - name: Replace with compliant code
+        shell: bash
+        working-directory: demo-plugin
+        run: |
+          cat > demo-plugin.php <<'PHP'
+          <?php
+          /**
+           * Plugin Name: Demo Plugin
+           * Description: Compliant plugin for the wp-standards-agent demo.
+           * Version: 1.0.0
+           * Author: Snoozle Studio
+           * License: GPL-2.0-or-later
+           * Text Domain: demo-plugin
+           *
+           * @package Demo_Plugin
+           */
+
+          if ( ! defined( 'ABSPATH' ) ) {
+          	exit;
+          }
+
+          /**
+           * Fetch the published posts for the demo.
+           *
+           * @return array<int, object>|null Rows from the database.
+           */
+          function demo_plugin_get_posts() {
+          	global $wpdb;
+
+          	return $wpdb->get_results(
+          		$wpdb->prepare(
+          			"SELECT * FROM {$wpdb->prefix}posts WHERE post_status = %s",
+          			'publish'
+          		)
+          	);
+          }
+
+          /**
+           * Print the requested item.
+           *
+           * @return void
+           */
+          function demo_plugin_print_item() {
+          	$nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
+          	if ( ! wp_verify_nonce( $nonce, 'demo_plugin_print_item' ) ) {
+          		return;
+          	}
+
+          	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified above.
+          	$item = isset( $_GET['item'] ) ? sanitize_text_field( wp_unslash( $_GET['item'] ) ) : '';
+          	echo '<div>' . esc_html( $item ) . '</div>';
+          }
+
+          /**
+           * Mark that the demo ran.
+           *
+           * @return void
+           */
+          function demo_plugin_mark_ran() {
+          	update_option( 'demo_plugin_ran', true );
+          }
+          add_action( 'init', 'demo_plugin_mark_ran' );
+          PHP
+
+      - name: Run the verification chain (must be green)
+        working-directory: demo-plugin
+        run: |
+          npm run build
+          npm run format:all:check
+          vendor/bin/phpcs --standard=phpcs.xml -d memory_limit=1024M
+          vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+
+      - name: Gate must allow the compliant commit
+        working-directory: demo-plugin
+        run: |
+          git add -A
+          git commit -m "chore: make demo plugin compliant"
+          echo "compliant commit passed the gate"

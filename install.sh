@@ -40,7 +40,7 @@ install_file() {
         echo "  backed up existing $name -> $name.bak"
     fi
     mkdir -p "$(dirname "$dst")"
-    printf '%s' "$content" > "$dst"
+    printf '%s\n' "$content" > "$dst"
     echo "  installed $name"
 }
 
